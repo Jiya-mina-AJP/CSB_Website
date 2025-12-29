@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom';
 import { FaTrash, FaPlus, FaMinus } from 'react-icons/fa';
 import axios from 'axios';
 import './Cart.css';
+import { useCart } from '../context/CartContext';
+import { toast } from '../components/ui/toaster';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+import API_URL from '../config';
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]); // TODO: Get from context/state
+  const { cart: cartItems, updateQuantity, removeFromCart, clearCart, getCartTotal } = useCart();
+
   const [orderData, setOrderData] = useState({
     customerName: '',
     customerEmail: '',
@@ -15,28 +18,10 @@ const Cart = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const updateQuantity = (id, change) => {
-    setCartItems(cartItems.map(item => {
-      if (item.id === id || item._id === id) {
-        const newQuantity = Math.max(1, item.quantity + change);
-        return { ...item, quantity: newQuantity };
-      }
-      return item;
-    }));
-  };
-
-  const removeItem = (id) => {
-    setCartItems(cartItems.filter(item => (item.id !== id && item._id !== id)));
-  };
-
-  const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (cartItems.length === 0) {
-      alert('Your cart is empty!');
+      toast.error('Your cart is empty!');
       return;
     }
 
@@ -55,12 +40,14 @@ const Cart = () => {
         items
       });
 
-      alert('Order placed successfully! Order ID: ' + response.data.id);
-      setCartItems([]);
+      toast.success('Order placed successfully!', {
+        description: `Order ID: ${response.data.id}`
+      });
+      clearCart();
       setOrderData({ customerName: '', customerEmail: '', customerPhone: '' });
     } catch (error) {
       console.error('Error placing order:', error);
-      alert('Failed to place order. Please try again.');
+      toast.error('Failed to place order. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -99,15 +86,15 @@ const Cart = () => {
                     </div>
                     <div className="cart-item-controls">
                       <div className="quantity-controls">
-                        <button onClick={() => updateQuantity(itemId, -1)}>
+                        <button onClick={() => updateQuantity(itemId, item.quantity - 1)}>
                           <FaMinus />
                         </button>
                         <span>{item.quantity}</span>
-                        <button onClick={() => updateQuantity(itemId, 1)}>
+                        <button onClick={() => updateQuantity(itemId, item.quantity + 1)}>
                           <FaPlus />
                         </button>
                       </div>
-                      <button className="remove-btn" onClick={() => removeItem(itemId)}>
+                      <button className="remove-btn" onClick={() => removeFromCart(itemId)}>
                         <FaTrash />
                       </button>
                     </div>
@@ -124,15 +111,15 @@ const Cart = () => {
               <div className="summary-details">
                 <div className="summary-row">
                   <span>Subtotal</span>
-                  <span>₹{calculateTotal().toFixed(2)}</span>
+                  <span>₹{getCartTotal().toFixed(2)}</span>
                 </div>
                 <div className="summary-row">
-                  <span>Tax</span>
-                  <span>₹{(calculateTotal() * 0.1).toFixed(2)}</span>
+                  <span>Tax (10%)</span>
+                  <span>₹{(getCartTotal() * 0.1).toFixed(2)}</span>
                 </div>
                 <div className="summary-row total">
                   <span>Total</span>
-                  <span>₹{(calculateTotal() * 1.1).toFixed(2)}</span>
+                  <span>₹{(getCartTotal() * 1.1).toFixed(2)}</span>
                 </div>
               </div>
 
@@ -178,4 +165,3 @@ const Cart = () => {
 };
 
 export default Cart;
-

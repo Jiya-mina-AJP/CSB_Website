@@ -1,0 +1,41 @@
+.admin-dashboard {
+  padding: 2rem 0;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.admin-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s;
+  border: 1px solid #eee;
+}
+
+.admin-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+}
+
+.admin-card .icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.admin-card h2 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.admin-card p {
+  color: #666;
+}

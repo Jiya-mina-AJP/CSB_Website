@@ -1,0 +1,262 @@
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: #ffffff;
+    /* dark:bg-zinc-950 */
+    color: #27272a;
+    /* text-zinc-800 */
+    overflow: hidden;
+    padding: 5rem 1rem;
+}
+
+/* Glassmorphism Card */
+.auth-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 32rem;
+    /* Slightly narrower for sleeker look */
+    padding: 2.5rem;
+    background-color: rgba(255, 255, 255, 0.85);
+    /* Translucent white */
+    backdrop-filter: blur(12px);
+    /* Blur effect */
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    /* Subtle white border */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    /* Soft shadow */
+}
+
+.back-button-container {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    z-index: 20;
+}
+
+.social-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    /* round-xl */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: white;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    color: #27272a;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.social-button:hover {
+    transform: translateY(-1px);
+    background-color: #ffffff;
+    border-color: #8D6E63;
+    color: #5D4037;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.logo-icon {
+    font-size: 2.5rem;
+    margin-right: 0.75rem;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: #18181b;
+}
+
+.header-container {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.header-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #18181b;
+    letter-spacing: -0.025em;
+}
+
+.header-subtitle {
+    margin-top: 0.5rem;
+    color: #71717a;
+}
+
+.header-link {
+    color: #8D6E63;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.header-link:hover {
+    text-decoration: underline;
+}
+
+.social-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.col-span-2 {
+    grid-column: span 2;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.divider-line {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(to right, transparent, #e4e4e7, transparent);
+}
+
+.divider-text {
+    color: #a1a1aa;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #3f3f46;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.form-input {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid #e4e4e7;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 0.75rem 1rem;
+    color: #18181b;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.form-input:focus {
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(141, 110, 99, 0.2);
+    border-color: #8D6E63;
+}
+
+.password-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Center align items */
+    margin-bottom: 0.5rem;
+}
+
+.forgot-link {
+    font-size: 0.875rem;
+    color: #8D6E63;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.submit-button {
+    width: 100%;
+    border-radius: 0.75rem;
+    /* Match input radius */
+    background: linear-gradient(135deg, #8D6E63, #5D4037);
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    color: white;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(93, 64, 55, 0.3), 0 2px 4px -1px rgba(93, 64, 55, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 1.5rem;
+    letter-spacing: 0.01em;
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(93, 64, 55, 0.4), 0 4px 6px -2px rgba(93, 64, 55, 0.2);
+    background: linear-gradient(135deg, #A1887F, #6D4C41);
+}
+
+.submit-button:active {
+    transform: scale(0.98);
+}
+
+.submit-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.terms-text {
+    margin-top: 2rem;
+    font-size: 0.875rem;
+    color: #71717a;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.terms-link {
+    color: #52525b;
+    /* Slightly darker than text */
+    text-decoration: underline;
+    text-decoration-color: #d4d4d8;
+    text-underline-offset: 4px;
+    transition: color 0.2s;
+}
+
+.terms-link:hover {
+    color: #ea580c;
+    text-decoration-color: #ea580c;
+}
+
+.background-decoration {
+    /* Kept as is, but visual might need checking. It's subtle enough. */
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 0;
+    width: 50vw;
+    height: 50vw;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke-width='2' stroke='rgb(141 110 99 / 0.1)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+    mask-image: radial-gradient(100% 100% at 100% 0%, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+    -webkit-mask-image: radial-gradient(100% 100% at 100% 0%, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}

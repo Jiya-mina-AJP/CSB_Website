@@ -1,0 +1,218 @@
+/* MenuBar.css */
+.menubar-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fafafa;
+    z-index: 50;
+    /* Ensure it stays above other content */
+}
+
+/* Mobile Toggle Button */
+.mobile-toggle {
+    display: flex;
+    /* flex to align center if needed, though block is fine for button */
+    flex-direction: column;
+    position: absolute;
+    top: 1.5rem;
+    /* top-6 */
+    right: 1.5rem;
+    /* right-6 */
+    z-index: 20;
+    padding: 0.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* Hamburger Lines */
+.hamburger-line {
+    width: 1.5rem;
+    /* w-6 */
+    height: 0.125rem;
+    /* h-0.5 */
+    background-color: #262626;
+    margin-bottom: 0.375rem;
+    /* mb-1.5 */
+    transition: transform 0.300s ease, opacity 0.300s ease;
+}
+
+.hamburger-line:last-child {
+    margin-bottom: 0;
+}
+
+/* Hamburger Animations */
+.mobile-toggle.open .hamburger-line:nth-child(1) {
+    transform: translateY(0.5rem) rotate(45deg);
+}
+
+.mobile-toggle.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-toggle.open .hamburger-line:nth-child(3) {
+    transform: translateY(-0.5rem) rotate(-45deg);
+}
+
+/* Menu Container */
+.menu-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    /* Full screen on mobile */
+    position: fixed;
+    /* Fixed on mobile to cover screen */
+    top: 0;
+    left: 0;
+    background-color: #fafafa;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.menu-container.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Menu List */
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    /* space-y-6 */
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* Link Item Container */
+.menu-link {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Link Text */
+.link-text {
+    position: relative;
+    z-index: 10;
+    display: block;
+    text-transform: uppercase;
+    color: #262626;
+    font-family: sans-serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    /* text-xl */
+    padding: 0.5rem 0.75rem;
+    /* py-2 px-3 */
+    transition: color 0.3s ease;
+}
+
+.menu-link:hover .link-text {
+    color: #ffffff;
+}
+
+.menu-link.active .link-text {
+    /* Optional: Active state style if needed, e.g., color: #000; */
+}
+
+
+/* Animations */
+/* Top & Bottom Border */
+.border-animation {
+    position: absolute;
+    inset: 0;
+    border-top: 2px solid #262626;
+    border-bottom: 2px solid #262626;
+    transform: scaleY(2);
+    opacity: 0;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.menu-link:hover .border-animation {
+    transform: scaleY(1);
+    opacity: 1;
+}
+
+/* Background Fill */
+.fill-animation {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 4px);
+    /* Adjust for borders */
+    background-color: #262626;
+    transform: scale(0);
+    opacity: 0;
+    transition: all 0.3s ease;
+    transform-origin: top;
+}
+
+.menu-link:hover .fill-animation {
+    transform: scale(1);
+    opacity: 1;
+}
+
+
+/* Desktop Styles */
+@media (min-width: 768px) {
+    .menubar-nav {
+        position: relative;
+        background: transparent;
+        height: auto;
+    }
+
+    .mobile-toggle {
+        display: none;
+    }
+
+    .menu-container {
+        position: static;
+        display: block;
+        width: 100%;
+        height: auto;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        background: transparent;
+    }
+
+    .menu-list {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0 4rem;
+        /* Add padding so items aren't on the edge */
+        gap: 0;
+        margin-top: 0;
+        box-sizing: border-box;
+        /* Ensure padding is included in width */
+    }
+
+    .link-text {
+        font-size: 1rem;
+        padding: 1.5rem 0.75rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .menu-list {
+        padding: 0 6rem;
+        /* Increases padding on larger screens */
+    }
+
+    .link-text {
+        font-size: 1.125rem;
+        padding: 1.5rem 1rem;
+    }
+}

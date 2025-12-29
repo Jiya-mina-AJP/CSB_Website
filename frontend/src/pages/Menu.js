@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Menu.css';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+import API_URL from '../config';
+import { useCart } from '../context/CartContext';
+import { toast } from '../components/ui/toaster';
 
 const Menu = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
-  const [cart, setCart] = useState([]);
+
+  const { addToCart } = useCart();
 
   const categories = ['All', 'Coffee', 'Tea', 'Snacks', 'Desserts', 'Beverages'];
 
@@ -37,26 +39,21 @@ const Menu = () => {
       console.error('Error details:', error.response?.data || error.message);
       setMenuItems([]);
       setFilteredItems([]);
-      alert('Failed to load menu. Check console for details. Make sure backend is running on port 5000.');
+      toast.error('Failed to load menu items.', { description: "Please ensure the backend is reachable." });
     } finally {
       setLoading(false);
     }
   };
 
-  const addToCart = (item) => {
-    const itemId = item.id || item._id;
-    const existingItem = cart.find(cartItem => (cartItem.id === itemId || cartItem._id === itemId));
-    if (existingItem) {
-      setCart(cart.map(cartItem =>
-        (cartItem.id === itemId || cartItem._id === itemId)
-          ? { ...cartItem, quantity: cartItem.quantity + 1 }
-          : cartItem
-      ));
-    } else {
-      setCart([...cart, { ...item, id: itemId, quantity: 1 }]);
-    }
-    // TODO: Use context/state management for cart
-    alert(`${item.name} added to cart!`);
+  const handleAddToCart = (item) => {
+    addToCart(item);
+    toast.success(`${item.name} added to cart!`, {
+      description: "You can view it in your cart.",
+      action: {
+        label: "View Cart",
+        onClick: () => window.location.href = '/cart'
+      }
+    });
   };
 
   return (
@@ -103,7 +100,7 @@ const Menu = () => {
                     <span className="price">₹{item.price.toFixed(2)}</span>
                     <button
                       className="btn btn-primary"
-                      onClick={() => addToCart(item)}
+                      onClick={() => handleAddToCart(item)}
                       disabled={!item.available}
                     >
                       {item.available ? 'Add to Cart' : 'Unavailable'}
@@ -124,4 +121,3 @@ const Menu = () => {
 };
 
 export default Menu;
-

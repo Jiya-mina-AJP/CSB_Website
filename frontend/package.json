@@ -3,11 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@radix-ui/react-slot": "^1.2.4",
+    "@supabase/supabase-js": "^2.89.0",
+    "axios": "^1.6.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.23.26",
+    "lucide-react": "^0.562.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.12.0",
     "react-router-dom": "^6.20.1",
-    "axios": "^1.6.2",
-    "react-icons": "^4.12.0"
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -36,7 +44,3 @@
     "react-scripts": "5.0.1"
   }
 }
-
-
-
-
