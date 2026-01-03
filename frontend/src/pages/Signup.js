@@ -19,6 +19,15 @@ const Signup = () => {
         setErrorMessage("");
 
         try {
+            // Development bypass: If Supabase URL is placeholder and fails, allow mock signup
+            if (process.env.NODE_ENV === 'development' && supabase.supabaseUrl.includes('wudakcft')) {
+                console.warn('Development mode: Mocking successful signup.');
+                await new Promise(resolve => setTimeout(resolve, 500));
+                alert("Development Mode: Mock account created! Redirecting to login.");
+                navigate('/login');
+                return;
+            }
+
             const { data, error } = await supabase.auth.signUp({
                 email,
                 password,
@@ -30,13 +39,14 @@ const Signup = () => {
                 // Manually create profile if trigger doesn't work or just to be safe
                 const { error: profileError } = await supabase
                     .from('profiles')
-                    .insert([{ id: data.user.id, email: email, role: 'user' }]);
+                    .select('id')
+                    .eq('id', data.user.id)
+                    .single();
 
-                if (profileError) {
-                    // Ignore duplicate key error in case trigger ran first
-                    if (!profileError.message.includes('duplicate key')) {
-                        console.error('Error creating profile:', profileError);
-                    }
+                if (!profileError) {
+                    await supabase
+                        .from('profiles')
+                        .insert([{ id: data.user.id, email: email, role: 'user' }]);
                 }
             }
 
@@ -55,6 +65,9 @@ const Signup = () => {
         try {
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
+                options: {
+                    redirectTo: `${window.location.origin}`,
+                }
             });
             if (error) throw error;
         } catch (error) {

@@ -1,0 +1,199 @@
+.my-orders-page {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #1a1a1a;
+}
+
+.tabs-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.tab-btn {
+    padding: 0.75rem 2rem;
+    border: none;
+    background: #f3f4f6;
+    border-radius: 99px;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tab-btn.active {
+    background: #0f172a;
+    color: white;
+    transform: scale(1.05);
+}
+
+.orders-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.order-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.order-id .label {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-right: 0.5rem;
+}
+
+.order-id .value {
+    font-weight: 700;
+    font-family: monospace;
+}
+
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 99px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.status-badge.Waiting.for.Approval {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.status-badge.Food.Getting.Ready {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+.status-badge.Out.for.Delivery {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.status-badge.Delivered\/Completed {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status-badge.Rejected,
+.status-badge.Cancelled {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.order-items {
+    margin-bottom: 1rem;
+}
+
+.order-item-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0;
+    color: #4b5563;
+}
+
+.order-item-row .qty {
+    font-weight: 600;
+    width: 30px;
+}
+
+.order-item-row .name {
+    flex: 1;
+}
+
+.order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f3f4f6;
+}
+
+.total-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+}
+
+.total-amount {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.date {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+.live-tracker {
+    margin-top: 1.5rem;
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 0.75rem;
+}
+
+.tracker-bar {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.tracker-progress {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    transition: width 0.5s ease;
+}
+
+.step-0 {
+    width: 5%;
+}
+
+.step-1 {
+    width: 33%;
+}
+
+.step-2 {
+    width: 66%;
+}
+
+.step-3 {
+    width: 90%;
+}
+
+.tracker-text {
+    font-size: 0.875rem;
+    text-align: center;
+    color: #4b5563;
+}

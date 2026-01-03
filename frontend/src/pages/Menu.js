@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './Menu.css';
-import API_URL from '../config';
+import supabase from '../config/supabase';
 import { useCart } from '../context/CartContext';
 import { toast } from '../components/ui/toaster';
+import './Menu.css';
 
 const Menu = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -29,17 +28,19 @@ const Menu = () => {
 
   const fetchMenuItems = async () => {
     try {
-      console.log('Fetching from:', `${API_URL}/menu`);
-      const response = await axios.get(`${API_URL}/menu`);
-      console.log('Received data:', response.data);
-      setMenuItems(response.data || []);
-      setFilteredItems(response.data || []);
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('menu_items')
+        .select('*')
+        .eq('show', true)
+        .order('name');
+
+      if (error) throw error;
+      setMenuItems(data || []);
+      setFilteredItems(data || []);
     } catch (error) {
-      console.error('Error fetching menu items:', error);
-      console.error('Error details:', error.response?.data || error.message);
-      setMenuItems([]);
-      setFilteredItems([]);
-      toast.error('Failed to load menu items.', { description: "Please ensure the backend is reachable." });
+      console.error('Error loading menu items:', error);
+      toast.error('Failed to load menu items.');
     } finally {
       setLoading(false);
     }
@@ -103,7 +104,7 @@ const Menu = () => {
                       onClick={() => handleAddToCart(item)}
                       disabled={!item.available}
                     >
-                      {item.available ? 'Add to Cart' : 'Unavailable'}
+                      {item.available ? 'Add to Cart' : 'Out of Stock'}
                     </button>
                   </div>
                 </div>

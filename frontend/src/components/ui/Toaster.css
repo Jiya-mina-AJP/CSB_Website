@@ -1,0 +1,154 @@
+/* frontend/src/components/ui/Toaster.css */
+
+/* Base Styles via Sonner Wrapper override if needed, but primarily for content */
+.toast-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 356px;
+    padding: 1rem;
+    background: white;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 0.5rem;
+    pointer-events: auto;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.toast-card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Variants Borders/Backgrounds */
+.toast-default {
+    border-left: 4px solid #9ca3af;
+}
+
+.toast-success {
+    border-left: 4px solid #10b981;
+    background: #f0fdf4;
+}
+
+.toast-error {
+    border-left: 4px solid #ef4444;
+    background: #fef2f2;
+}
+
+.toast-warning {
+    border-left: 4px solid #f59e0b;
+    background: #fffbeb;
+}
+
+/* Content Layout */
+.toast-content-wrapper {
+    display: flex;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.toast-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.toast-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0;
+}
+
+.toast-title.highlight {
+    color: #16a34a !important;
+}
+
+.toast-message {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Text Colors based on variant */
+.toast-title.default {
+    color: #1f2937;
+}
+
+.toast-title.success {
+    color: #059669;
+}
+
+.toast-title.error {
+    color: #dc2626;
+}
+
+.toast-title.warning {
+    color: #d97706;
+}
+
+/* Icon Colors */
+.toast-icon {
+    margin-top: 2px;
+}
+
+.toast-icon.default {
+    color: #6b7280;
+}
+
+.toast-icon.success {
+    color: #10b981;
+}
+
+.toast-icon.error {
+    color: #ef4444;
+}
+
+.toast-icon.warning {
+    color: #f59e0b;
+}
+
+/* Actions Section */
+.toast-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.toast-action-btn {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.375rem;
+    background: white;
+    border: 1px solid #d1d5db;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #374151;
+}
+
+.toast-action-btn:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.toast-close-btn {
+    border: none;
+    background: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.toast-close-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #374151;
+}

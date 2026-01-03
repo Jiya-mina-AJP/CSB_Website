@@ -26,17 +26,7 @@ const Login = () => {
 
             if (error) throw error;
 
-            const { data: profile } = await supabase
-                .from('profiles')
-                .select('role')
-                .eq('id', data.user.id)
-                .single();
-
-            if (profile?.role === 'admin') {
-                navigate('/admin');
-            } else {
-                navigate('/');
-            }
+            navigate('/');
         } catch (error) {
             console.error('Login error:', error);
             setErrorMessage(error.message);
@@ -49,10 +39,33 @@ const Login = () => {
         try {
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
+                options: {
+                    redirectTo: `${window.location.origin}`,
+                }
             });
             if (error) throw error;
         } catch (error) {
             alert(error.message);
+        }
+    };
+
+    const handleForgotPassword = async (e) => {
+        e.preventDefault();
+
+        if (!email) {
+            alert("Please enter your email address in the field above first.");
+            return;
+        }
+
+        try {
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: `${window.location.origin}/update-password`,
+            });
+            if (error) throw error;
+            alert('Password reset link sent to ' + email + '!');
+        } catch (error) {
+            console.error('Reset password error:', error);
+            alert('Error sending reset link: ' + error.message);
         }
     };
 
@@ -118,7 +131,7 @@ const Login = () => {
                     <div className="form-group">
                         <div className="password-header">
                             <label className="form-label" style={{ marginBottom: 0 }}>Password</label>
-                            <a href="#" className="forgot-link">Forgot?</a>
+                            <button type="button" onClick={handleForgotPassword} className="forgot-link" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>Forgot?</button>
                         </div>
                         <input
                             type="password"
@@ -133,8 +146,6 @@ const Login = () => {
                         {loading ? 'Signing in...' : 'Sign in'}
                     </button>
                 </form>
-
-                {/* Terms removed as per request */}
 
             </motion.div>
         </AuroraBackground>

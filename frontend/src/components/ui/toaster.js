@@ -12,28 +12,28 @@ import {
     X,
 } from 'lucide-react';
 
-import { Button } from './button';
 import { cn } from '../../lib/utils';
+import './Toaster.css';
 
-const variantStyles = {
-    default: 'bg-white border-gray-200 text-gray-900',
-    success: 'bg-white border-green-600/50',
-    error: 'bg-white border-red-500/50',
-    warning: 'bg-white border-amber-600/50',
+const variantClasses = {
+    default: 'toast-default',
+    success: 'toast-success',
+    error: 'toast-error',
+    warning: 'toast-warning',
 };
 
-const titleColor = {
-    default: 'text-gray-900',
-    success: 'text-green-600',
-    error: 'text-red-600',
-    warning: 'text-amber-600',
+const titleColorClasses = {
+    default: 'default',
+    success: 'success',
+    error: 'error',
+    warning: 'warning',
 };
 
-const iconColor = {
-    default: 'text-gray-500',
-    success: 'text-green-600',
-    error: 'text-red-600',
-    warning: 'text-amber-600',
+const iconColorClasses = {
+    default: 'default',
+    success: 'success',
+    error: 'error',
+    warning: 'warning',
 };
 
 const variantIcons = {
@@ -49,7 +49,7 @@ const toastAnimation = {
     exit: { opacity: 0, y: 50, scale: 0.95 },
 };
 
-// Custom toast function
+// Custom toast wrapper component
 const showCustomToast = ({
     title,
     message,
@@ -71,41 +71,39 @@ const showCustomToast = ({
                 exit="exit"
                 transition={{ duration: 0.3, ease: 'easeOut' }}
                 className={cn(
-                    'flex items-center justify-between w-full max-w-xs p-3 rounded-xl border shadow-md bg-white',
-                    variantStyles[variant]
+                    'toast-card',
+                    variantClasses[variant]
                 )}
             >
-                <div className="flex items-start gap-2">
-                    <Icon className={cn('h-4 w-4 mt-0.5 flex-shrink-0', iconColor[variant])} />
-                    <div className="space-y-0.5">
+                <div className="toast-content-wrapper">
+                    <Icon className={cn('toast-icon h-5 w-5', iconColorClasses[variant])} />
+                    <div className="toast-text-group">
                         {title && (
                             <h3
                                 className={cn(
-                                    'text-xs font-medium leading-none',
-                                    titleColor[variant],
-                                    highlightTitle && titleColor['success']
+                                    'toast-title',
+                                    titleColorClasses[variant],
+                                    highlightTitle && 'highlight'
                                 )}
                             >
                                 {title}
                             </h3>
                         )}
-                        <p className="text-xs text-gray-500">{message}</p>
+                        {message && <p className="toast-message">{message}</p>}
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="toast-actions">
                     {actions?.label && (
-                        <Button
-                            variant={actions.variant || 'outline'}
-                            size="sm"
+                        <button
                             onClick={() => {
                                 actions.onClick();
                                 sonnerToast.dismiss(toastId);
                             }}
-                            className="h-7 text-xs px-2"
+                            className="toast-action-btn"
                         >
                             {actions.label}
-                        </Button>
+                        </button>
                     )}
 
                     <button
@@ -113,10 +111,10 @@ const showCustomToast = ({
                             sonnerToast.dismiss(toastId);
                             onDismiss?.();
                         }}
-                        className="rounded-full p-1 hover:bg-gray-100 transition-colors focus:outline-none"
+                        className="toast-close-btn"
                         aria-label="Dismiss notification"
                     >
-                        <X className="h-3 w-3 text-gray-400" />
+                        <X size={16} />
                     </button>
                 </div>
             </motion.div>
@@ -125,12 +123,13 @@ const showCustomToast = ({
     );
 };
 
-// Export a wrapper that mimics sonner's API but uses our custom UI
+// Wrapper API to match simplified usage (title as first arg)
+// This ensures toast.success('Title', { description: 'Msg'}) works correctly
 export const toast = {
-    success: (message, options) => showCustomToast({ ...options, message, variant: 'success' }),
-    error: (message, options) => showCustomToast({ ...options, message, variant: 'error' }),
-    warning: (message, options) => showCustomToast({ ...options, message, variant: 'warning' }),
-    info: (message, options) => showCustomToast({ ...options, message, variant: 'default' }),
+    success: (title, options = {}) => showCustomToast({ ...options, title, message: options.description, variant: 'success' }),
+    error: (title, options = {}) => showCustomToast({ ...options, title, message: options.description, variant: 'error' }),
+    warning: (title, options = {}) => showCustomToast({ ...options, title, message: options.description, variant: 'warning' }),
+    info: (title, options = {}) => showCustomToast({ ...options, title, message: options.description, variant: 'default' }),
     custom: sonnerToast.custom,
     dismiss: sonnerToast.dismiss,
 };
@@ -139,7 +138,12 @@ const Toaster = ({ defaultPosition = 'bottom-right' }) => {
     return (
         <SonnerToaster
             position={defaultPosition}
-            toastOptions={{ unstyled: true, className: 'flex justify-end p-4' }}
+            // We use unstyled false (default) but override styles via CSS classes in our custom component
+            // Alternatively, we can use toastOptions to strip default styles if double-styling occurs
+            // Using a simple style override to reset container basics for our custom card
+            toastOptions={{
+                style: { background: 'transparent', border: 'none', boxShadow: 'none', padding: 0, width: 'auto' },
+            }}
         />
     );
 };

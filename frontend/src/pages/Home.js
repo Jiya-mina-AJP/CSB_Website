@@ -1,24 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import supabase from '../config/supabase';
 import './Home.css';
-
-import API_URL from '../config';
 
 const Home = () => {
   const [featuredItems, setFeaturedItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    checkAdmin();
     fetchFeaturedItems();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      checkAdmin();
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
+
+  const checkAdmin = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+      if (profile?.role === 'admin') {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
+    } else {
+      setIsAdmin(false);
+    }
+  };
 
   const fetchFeaturedItems = async () => {
     try {
-      const response = await axios.get(`${API_URL}/menu?featured=true`);
-      setFeaturedItems(response.data || []);
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('menu_items')
+        .select('*')
+        .eq('featured', true)
+        .eq('show', true)
+        .limit(3);
+
+      if (error) throw error;
+      setFeaturedItems(data || []);
     } catch (error) {
-      console.error('Error fetching featured items:', error);
+      console.error('Error loading featured items:', error);
       setFeaturedItems([]);
     } finally {
       setLoading(false);
@@ -32,7 +64,12 @@ const Home = () => {
         <div className="hero-content">
           <h1>Welcome to CSB</h1>
           <p>Chai Sutta Bar - Experience authentic chai and delicious food</p>
-          <Link to="/menu" className="btn btn-primary">Explore Menu</Link>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+            <Link to="/menu" className="btn btn-primary">Explore Menu</Link>
+            {isAdmin && (
+              <Link to="/admin" className="btn btn-secondary">Admin Dashboard</Link>
+            )}
+          </div>
         </div>
       </section>
 

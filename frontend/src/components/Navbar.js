@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, Coffee, Info, Phone, ShoppingCart, User, DoorOpen, LogOut } from 'lucide-react';
+import { Home, Coffee, Info, Phone, ShoppingCart, User, DoorOpen, LogOut, Package } from 'lucide-react';
 import supabase from '../config/supabase';
 import { MenuBar } from './MenuBar';
 import './Navbar.css';
@@ -17,6 +17,22 @@ const Navbar = () => {
   // Calculate cart count safely
   const cartCount = getCartCount ? getCartCount() : 0;
 
+  const checkAdmin = useCallback(async (userId) => {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', userId)
+      .single();
+    if (profile?.role === 'admin') setIsAdmin(true);
+    else setIsAdmin(false);
+  }, []);
+
+  const checkUser = useCallback(async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setUser(user);
+    if (user) checkAdmin(user.id);
+  }, [checkAdmin]);
+
   useEffect(() => {
     checkUser();
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -25,37 +41,12 @@ const Navbar = () => {
       else setIsAdmin(false);
     });
     return () => subscription.unsubscribe();
-  }, []);
-
-  // Update active item based on path
-  useEffect(() => {
-    const path = location.pathname;
-    if (path === '/') setActiveItem("Home");
-    else if (path.includes('/menu')) setActiveItem("Menu");
-    else if (path.includes('/about')) setActiveItem("About");
-    else if (path.includes('/contact')) setActiveItem("Contact");
-    else if (path.includes('/cart')) setActiveItem("Cart");
-    else if (path.includes('/admin')) setActiveItem("Dashboard");
-    else if (path.includes('/login') || path.includes('/signup')) setActiveItem("Login");
-  }, [location]);
-
-  const checkUser = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    setUser(user);
-    if (user) checkAdmin(user.id);
-  };
-
-  const checkAdmin = async (userId) => {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', userId)
-      .single();
-    if (profile?.role === 'admin') setIsAdmin(true);
-  };
+  }, [checkUser, checkAdmin]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    setUser(null);
+    setIsAdmin(false);
     navigate('/');
   };
 
@@ -83,6 +74,8 @@ const Navbar = () => {
     if (isAdmin) {
       rightItems.push({ icon: DoorOpen, label: "Admin Portal", href: "/admin", gradient: "radial-gradient(circle, rgba(239,68,68,0.15) 0%, transparent 100%)", iconColor: "text-red-500" });
     }
+    rightItems.push({ icon: Package, label: "My Orders", href: "/my-orders", gradient: "radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 100%)", iconColor: "text-emerald-500" });
+
     // Logout is a special case, handled in click handler, but lets add item for it
     rightItems.push({ icon: LogOut, label: "Logout", href: "#logout", gradient: "radial-gradient(circle, rgba(107,114,128,0.15) 0%, transparent 100%)", iconColor: "text-gray-500" });
   } else {

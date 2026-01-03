@@ -13,8 +13,12 @@ import OrderSuccess from './pages/OrderSuccess';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminMenu from './pages/AdminMenu';
 import AdminOrders from './pages/AdminOrders';
+import AdminDiscounts from './pages/AdminDiscounts';
+import AdminAnalysis from './pages/AdminAnalysis';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import UpdatePassword from './pages/UpdatePassword';
+import MyOrders from './pages/MyOrders';
 import './App.css';
 
 import { CartProvider } from './context/CartContext';
@@ -36,8 +40,10 @@ function App() {
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/order-success" element={<OrderSuccess />} />
+              <Route path="/my-orders" element={<MyOrders />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/update-password" element={<UpdatePassword />} />
 
               {/* Admin Routes */}
               <Route path="/admin" element={
@@ -53,6 +59,16 @@ function App() {
               <Route path="/admin/orders" element={
                 <AdminRoute>
                   <AdminOrders />
+                </AdminRoute>
+              } />
+              <Route path="/admin/discounts" element={
+                <AdminRoute>
+                  <AdminDiscounts />
+                </AdminRoute>
+              } />
+              <Route path="/admin/analysis" element={
+                <AdminRoute>
+                  <AdminAnalysis />
                 </AdminRoute>
               } />
             </Routes>
