@@ -4,24 +4,17 @@
   "description": "A modern cafe website built with MERN stack",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "cd backend && npm run dev",
-    "client": "cd frontend && npm start",
-    "install-server": "cd backend && npm install",
+    "dev": "cd frontend && npm start",
+    "start": "cd frontend && npm start",
+    "deployment": "cd frontend && npm run build",
     "install-client": "cd frontend && npm install",
-    "install-all": "npm run install-server && npm run install-client"
+    "install-all": "npm run install-client"
   },
   "keywords": [
     "cafe",
-    "mern",
     "react",
-    "nodejs",
-    "mongodb"
+    "supabase"
   ],
   "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "concurrently": "^8.2.2"
-  }
+  "license": "MIT"
 }
-
